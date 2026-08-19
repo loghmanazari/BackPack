@@ -115,9 +115,7 @@ install_release() {
   done
 
   # 2) The latest GitHub release.
-  URL="https://github.com/${REPO}/releases/latest/download/${ASSET}"
-  echo "$URL"
-  fetch "$URL" || return 1
+  fetch "https://github.com/${REPO}/releases/latest/download/${ASSET}" "$INSTALL_DIR/$ASSET" || return 1
 
   # 3) Verify against the checksums published with the same release. An archive
   #    that cannot be verified is not installed: this binary runs as root, and
