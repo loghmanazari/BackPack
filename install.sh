@@ -115,12 +115,14 @@ install_release() {
   done
 
   # 2) The latest GitHub release.
-  fetch "https://api.jahan-cloud.ir/BackPack/$ASSET" || return 1
+  URL="https://github.com/${REPO}/releases/latest/download/${ASSET}"
+  echo "$URL"
+  fetch "$URL" || return 1
 
   # 3) Verify against the checksums published with the same release. An archive
   #    that cannot be verified is not installed: this binary runs as root, and
   #    the offline install in the README is always available as a way out.
-  if ! fetch "https://api.jahan-cloud.ir/BackPack/SHA256SUMS"; then
+  if ! fetch "https://github.com/${REPO}/releases/latest/download/SHA256SUMS" "$INSTALL_DIR/SHA256SUMS"; then
     err "Could not fetch SHA256SUMS, so the download cannot be verified."
     err "Refusing to install it. Install offline instead — see the README."
     rm -f "$INSTALL_DIR/$ASSET"
